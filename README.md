@@ -4,8 +4,8 @@
 
 ## What is this?
 
-[Archipelago Multiworld Randomizer](https://archipelago.gg/), at this point still known as Berserker MultiWorld Randomizer, is an ALttP-Randomizer tool. ([Source Code](https://github.com/Berserker66/MultiWorld-Utilities))
 This is a script for [RetroPie](https://retropie.org.uk/) to make it easier to install and run Archipelago directly on this platform.
+[Archipelago Multiworld Randomizer](https://archipelago.gg/), at this point still known as Berserker MultiWorld Randomizer, is an ALttP-Randomizer tool. ([Source Code](https://github.com/Berserker66/MultiWorld-Utilities))
 
 ## How to install?
 
