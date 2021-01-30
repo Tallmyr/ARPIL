@@ -9,7 +9,7 @@ This is a script for [RetroPie](https://retropie.org.uk/) to make it easier to i
 
 ## How to install?
 
-1. Download arpil.sh from releases or from source (in source, it's under scriptmodules/ports/) and copy to the ports scriptmodules folder on RPI: 
+1. Download arpil.sh from releases or from source (in source, it's under scriptmodules/ports/) and copy to the ports scriptmodules folder on RPI:
 *~/RetroPie-Setup/scriptmodules/ports*
 2. Copy your A Link to the Past v1.0 Japan ROM to  *romdir*/ports/Archipelago/
 3. Run RetroPie Setup and install the ARPIL package found under "ext".
