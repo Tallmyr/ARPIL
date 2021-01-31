@@ -35,7 +35,7 @@ romcheck() {
 }
 
 #New Game
-# shellcheck disable=SC2068
+# shellcheck disable=SC2068,SC2128
 newgame() {
 
     #Get list of available YAML's
