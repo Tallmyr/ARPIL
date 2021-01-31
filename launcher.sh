@@ -15,17 +15,16 @@ ROMS="$PORTS/roms"
 BERSERKER="/opt/retropie/ports/$SCRIPTID/berserker"
 
 #Set constants
-HEIGHT=15
-WIDTH=60
+HEIGHT=40
+WIDTH=80
 BACKTITLE="Archipelago for RetroPie Launcher"
 
-#Bootup Tests
+#Bootup Tests - This makes sure that the Romfile exist, otherwize throws an error with instructions
 romcheck() {
     ZELDA="Zelda no Densetsu - Kamigami no Triforce (Japan).sfc"
     echo "Check if rom exist"
     FILE="$ZELDA"
     if [ -f "$FILE" ]; then
-        read -pr "Rom exists"
         pause
         main
     else
@@ -60,11 +59,19 @@ newgame() {
         ${options[@]} \
         2>&1 >/dev/tty)
 
-    #Print selected YAML
-    echo "${yamllist[$CHOICE]}"
-
+    clear
     #run Berserker Mystery
     python3 "$BERSERKER"/Mystery.py --weights "${yamllist[$CHOICE]}" --outputpath "$PORTS/output"
+
+    #Move rom to the right dir and rename to Date and Time
+    dt=$(date '+%d%m%Y-%H%M%S')
+    oldrom=("$PORTS"/output/*.sfc)
+    newrom="$PORTS/roms/$dt.sfc"
+    echo "$oldrom"
+    mv "$oldrom" "$newrom"
+
+    #Launch Game using default SNES settings
+    /opt/retropie/supplementary/runcommand/runcommand.sh 0 _SYS_ snes "$newrom"
 }
 
 #Main Menu
