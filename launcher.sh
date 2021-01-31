@@ -12,11 +12,28 @@ joy2keyStart
 PORTS="$HOME/RetroPie/roms/ports/$SCRIPTID"
 YAML="$PORTS/YAML"
 ROMS="$PORTS/roms"
+BERSERKER="/opt/retropie/ports/$SCRIPTID/berserker"
 
 #Set constants
 HEIGHT=15
-WIDTH=40
+WIDTH=60
 BACKTITLE="Archipelago for RetroPie Launcher"
+
+#Bootup Tests
+romcheck() {
+    ZELDA="Zelda no Densetsu - Kamigami no Triforce (Japan).sfc"
+    echo "Check if rom exist"
+    FILE="$ZELDA"
+    if [ -f "$FILE" ]; then
+        read -pr "Rom exists"
+        pause
+        main
+    else
+        dialog --clear \
+            --title "Error" \
+            --msgbox "Zelda no Densetsu - Kamigami no Triforce (Japan).sfc was not found. Please add this to the Ports/$SCRIPTID rom folder ($PORTS)" $HEIGHT $WIDTH
+    fi
+}
 
 #New Game
 # shellcheck disable=SC2068
@@ -45,6 +62,9 @@ newgame() {
 
     #Print selected YAML
     echo "${yamllist[$CHOICE]}"
+
+    #run Berserker Mystery
+    python3 "$BERSERKER"/Mystery.py --weights "${yamllist[$CHOICE]}" --outputpath "$PORTS/output"
 }
 
 #Main Menu
@@ -85,7 +105,8 @@ main() {
 }
 
 #Launch Main Menu
-main
+cd "$PORTS" || exit
+romcheck
 
 #Stop joy2key
 joy2keyStop
