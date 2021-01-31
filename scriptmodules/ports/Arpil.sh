@@ -29,9 +29,15 @@ function install_arpil() {
 
 function configure_arpil() {
     addPort "$md_id" "arpil" "Arpil" "$md_inst/launcher.sh"
+
+    [[ "$md_mode" = "install" ]] && return
     chmod +x "$md_inst/launcher.sh"
     pip3 install -r "$md_inst/berserker/requirements.txt"
 
-    [[ "$md_mode" = "install" ]] && return
+    mkRomDir ports/"$md_id"/output
+    mkRomDir ports/"$md_id"/roms
+    mkRomDir ports/"$md_id"/YAML
+
+    cp "$md_inst"/berserker/playerSettings.yaml "$romdir/ports/$md_id/YAML/playerSettings.yaml" 
 
 }
