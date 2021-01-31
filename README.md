@@ -4,6 +4,7 @@
 
 ## What is this?
 
+---
 This is RetroPie "Ports" script to install Berserker MultiWorld and generate games from a handy menu.
 This will automatically download and install Berserker MultiWorld from source, and allow you to create your own Randomized Zelda 3 games with right from your couch.
 
@@ -14,6 +15,8 @@ This project is not endorsed or connected to either RetroPie or Berserker MultiW
 
 ## How to install?
 
+---
+
 1. Download arpil.sh from releases and copy to the ports scriptmodules folder on RPI:
 *~/RetroPie-Setup/scriptmodules/ports*
 2. Run RetroPie Setup and install the ARPIL package found under "ext".
@@ -21,16 +24,21 @@ This project is not endorsed or connected to either RetroPie or Berserker MultiW
 4. Copy any YAML files you want to the YAML directory in *romdir*/ports/YAML
 *(the default YAML is copied automatically)*
 
-## (not so...) FAQ
+## FAQ
 
-**Why is this called "Archipelago" and not Berserker MultiWorld *something*?**
+---
+**Q: Why is this called "Archipelago" and not Berserker MultiWorld *something*?**
+
 Berserker MultiWorld will be renamed soon, and I figured i'd be one step ahead.
 
-**Will this be included in RetroPie or RetroPie-Extras by default?**
+**Q: Will this be included in RetroPie or RetroPie-Extras by default?**
+
 Have not considered so far yet. It is possible
 
-**Does this support Multiworld, or just single player?**
+**Q: Does this support Multiworld, or just single player?**
+
 First release is single player games only. Automating joining of Multiworld games are planned for later releases
 
-**Can't I just use the Archipelago website and copy the roms over?**
+**Q: Can't I just use the Archipelago website and copy the roms over?**
+
 Of course you can. I wanted something more convinient, and more importantly, I was bored.
