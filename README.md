@@ -10,6 +10,7 @@ This will automatically download and install Berserker MultiWorld from source, a
 This project is not endorsed or connected to either RetroPie or Berserker MultiWorld. You can find these projects here:
 
 [Berserker MultiWorld](https://berserkermulti.world/) - [Github](https://github.com/Berserker66/MultiWorld-Utilities)
+
 [RetroPie](https://retropie.org.uk/)
 
 ## How to install?
