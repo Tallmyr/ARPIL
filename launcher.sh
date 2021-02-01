@@ -55,7 +55,7 @@ newgame() {
         --backtitle "$BACKTITLE" \
         --title "$TITLE" \
         --menu "$MENU" \
-        $HEIGHT $WIDTH 3 \
+        "$HEIGHT" "$WIDTH" "$i" \
         ${options[@]} \
         2>&1 >/dev/tty)
 
@@ -74,6 +74,7 @@ newgame() {
     /opt/retropie/supplementary/runcommand/runcommand.sh 0 _SYS_ snes "$newrom"
 }
 
+# shellcheck disable=SC2068,SC2128
 continue() {
     #Get list of available ROMS's
     romlist=("$ROMS"/*.sfc)
@@ -92,13 +93,13 @@ continue() {
         --backtitle "$BACKTITLE" \
         --title "$TITLE" \
         --menu "$MENU" \
-        $HEIGHT $WIDTH 3 \
+        "$HEIGHT" "$WIDTH" "$i" \
         ${options[@]} \
         2>&1 >/dev/tty)
 
     clear
     #run Berserker Mystery
-    python3 "$BERSERKER"/Mystery.py --weights "${yamllist[$CHOICE]}" --outputpath "$PORTS/output"
+    /opt/retropie/supplementary/runcommand/runcommand.sh 0 _SYS_ snes "$rom"
 }
 
 #Main Menu
