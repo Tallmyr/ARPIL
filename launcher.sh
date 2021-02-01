@@ -74,6 +74,33 @@ newgame() {
     /opt/retropie/supplementary/runcommand/runcommand.sh 0 _SYS_ snes "$newrom"
 }
 
+continue() {
+    #Get list of available ROMS's
+    romlist=("$ROMS"/*.sfc)
+    i=0
+    #Convert to list that works with Dialog
+    for rom in "${romlist[@]}"; do
+        options+=("$i ${rom##*/}")
+        ((i = i + 1))
+    done
+
+    #List Roms
+    TITLE="Continue Game"
+    MENU="Select your ROM file:"
+
+    CHOICE=$(dialog --clear \
+        --backtitle "$BACKTITLE" \
+        --title "$TITLE" \
+        --menu "$MENU" \
+        $HEIGHT $WIDTH 3 \
+        ${options[@]} \
+        2>&1 >/dev/tty)
+
+    clear
+    #run Berserker Mystery
+    python3 "$BERSERKER"/Mystery.py --weights "${yamllist[$CHOICE]}" --outputpath "$PORTS/output"
+}
+
 #Main Menu
 main() {
 
