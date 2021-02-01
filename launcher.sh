@@ -15,7 +15,7 @@ ROMS="$PORTS/roms"
 BERSERKER="/opt/retropie/ports/$SCRIPTID/berserker"
 
 #Set constants
-HEIGHT=40
+HEIGHT=0
 WIDTH=80
 BACKTITLE="Archipelago for RetroPie Launcher"
 
@@ -25,7 +25,6 @@ romcheck() {
     echo "Check if rom exist"
     FILE="$ZELDA"
     if [ -f "$FILE" ]; then
-        pause
         main
     else
         dialog --clear \
@@ -62,7 +61,7 @@ newgame() {
     clear
     #run Berserker Mystery
     python3 "$BERSERKER"/Mystery.py --weights "${yamllist[$CHOICE]}" --outputpath "$PORTS/output"
-
+sleep 5
     #Move rom to the right dir and rename to Date and Time
     dt=$(date '+%d%m%Y-%H%M%S')
     oldrom=("$PORTS"/output/*.sfc)
@@ -72,6 +71,7 @@ newgame() {
 
     #Launch Game using default SNES settings
     /opt/retropie/supplementary/runcommand/runcommand.sh 0 _SYS_ snes "$newrom"
+    
 }
 
 # shellcheck disable=SC2068,SC2128
@@ -149,3 +149,4 @@ romcheck
 
 #Stop joy2key
 joy2keyStop
+
