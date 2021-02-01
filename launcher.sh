@@ -98,7 +98,11 @@ continue() {
         2>&1 >/dev/tty)
 
     clear
-    #run Berserker Mystery
+
+    #Set rom path
+    rom="$ROMS/$CHOICE"
+
+    #Launch Game using default SNES settings
     /opt/retropie/supplementary/runcommand/runcommand.sh 0 _SYS_ snes "$rom"
 }
 
