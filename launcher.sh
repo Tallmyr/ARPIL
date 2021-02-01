@@ -75,7 +75,7 @@ newgame() {
 }
 
 # shellcheck disable=SC2068,SC2128
-continue() {
+continuegame() {
     #Get list of available ROMS's
     romlist=("$ROMS"/*.sfc)
     i=0
