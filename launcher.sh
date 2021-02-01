@@ -36,7 +36,7 @@ romcheck() {
 #New Game
 # shellcheck disable=SC2068,SC2128
 newgame() {
-
+    unset options
     #Get list of available YAML's
     yamllist=("$YAML"/*.yaml)
     i=0
@@ -80,6 +80,7 @@ newgame() {
 
 # shellcheck disable=SC2068,SC2128
 continuegame() {
+    unset options
     #Get list of available ROMS's
     romlist=("$ROMS"/*.sfc)
     i=0
@@ -127,6 +128,7 @@ main() {
     CHOICE=$(dialog --clear \
         --backtitle "$BACKTITLE" \
         --title "$TITLE" \
+        --no-cancel \
         --menu "$MENU" \
         $HEIGHT $WIDTH 4 \
         "${OPTIONS[@]}" \
