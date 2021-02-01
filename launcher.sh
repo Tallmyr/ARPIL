@@ -42,8 +42,8 @@ newgame() {
     i=0
     #Convert to list that works with Dialog
     for yaml in "${yamllist[@]}"; do
-        options+=("$i ${yaml##*/}")
         ((i = i + 1))
+        options+=("$i ${yaml##*/}")  
     done
 
     #New Game Dialog
@@ -57,11 +57,15 @@ newgame() {
         "$HEIGHT" "$WIDTH" "$i" \
         ${options[@]} \
         2>&1 >/dev/tty)
-
+    
     clear
+
+    #If cancel, return to main
+    [ -z "$CHOICE" ] && main
+
     #run Berserker Mystery
-    python3 "$BERSERKER"/Mystery.py --weights "${yamllist[$CHOICE]}" --outputpath "$PORTS/output"
-sleep 5
+    python3 "$BERSERKER"/Mystery.py --weights "${yamllist[$CHOICE-1]}" --outputpath "$PORTS/output"
+
     #Move rom to the right dir and rename to Date and Time
     dt=$(date '+%d%m%Y-%H%M%S')
     oldrom=("$PORTS"/output/*.sfc)
@@ -81,8 +85,8 @@ continuegame() {
     i=0
     #Convert to list that works with Dialog
     for rom in "${romlist[@]}"; do
-        options+=("$i ${rom##*/}")
         ((i = i + 1))
+        options+=("$i ${rom##*/}")
     done
 
     #List Roms
@@ -95,12 +99,14 @@ continuegame() {
         --menu "$MENU" \
         "$HEIGHT" "$WIDTH" "$i" \
         ${options[@]} \
-        2>&1 >/dev/tty)
+        3>&1 1>&2 2>&3 3>&-)
 
     clear
+    #If cancel, return to main
+    [ -z "$CHOICE" ] && main
 
     #Set rom path
-    rom="$ROMS/$CHOICE"
+    rom="${romlist[$CHOICE-1]}"
 
     #Launch Game using default SNES settings
     /opt/retropie/supplementary/runcommand/runcommand.sh 0 _SYS_ snes "$rom"
