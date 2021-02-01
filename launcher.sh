@@ -12,7 +12,7 @@ joy2keyStart
 PORTS="$HOME/RetroPie/roms/ports/$SCRIPTID"
 YAML="$PORTS/YAML"
 ROMS="$PORTS/roms"
-BERSERKER="/opt/retropie/ports/$SCRIPTID/berserker"
+BERSERKER="/$PORTS/berserker"
 
 #Set constants
 HEIGHT=0
