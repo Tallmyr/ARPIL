@@ -41,5 +41,5 @@ function configure_arpil() {
 
     cp "$md_inst/berserker/playerSettings.yaml" "$romdir/ports/$md_id/YAML/playerSettings.yaml" 
     mv "$md_inst/berserker" "$romdir/ports/$md_id"
-    chown -R "$user":"$user" "$romdir/ports/$md_id"
+    chown -R "$user":"$user" "$romdir/ports/$md_id/berserker"
 }
