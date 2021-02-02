@@ -12,10 +12,10 @@ joy2keyStart
 PORTS="$HOME/RetroPie/roms/ports/$SCRIPTID"
 YAML="$PORTS/YAML"
 ROMS="$PORTS/roms"
-BERSERKER="/opt/retropie/ports/$SCRIPTID/berserker"
+BERSERKER="/$PORTS/berserker"
 
 #Set constants
-HEIGHT=40
+HEIGHT=0
 WIDTH=80
 BACKTITLE="Archipelago for RetroPie Launcher"
 
@@ -25,7 +25,6 @@ romcheck() {
     echo "Check if rom exist"
     FILE="$ZELDA"
     if [ -f "$FILE" ]; then
-        pause
         main
     else
         dialog --clear \
@@ -37,14 +36,14 @@ romcheck() {
 #New Game
 # shellcheck disable=SC2068,SC2128
 newgame() {
-
+    unset options
     #Get list of available YAML's
     yamllist=("$YAML"/*.yaml)
     i=0
     #Convert to list that works with Dialog
     for yaml in "${yamllist[@]}"; do
-        options+=("$i ${yaml##*/}")
         ((i = i + 1))
+        options+=("$i ${yaml##*/}")  
     done
 
     #New Game Dialog
@@ -55,13 +54,17 @@ newgame() {
         --backtitle "$BACKTITLE" \
         --title "$TITLE" \
         --menu "$MENU" \
-        $HEIGHT $WIDTH 3 \
+        "$HEIGHT" "$WIDTH" "$i" \
         ${options[@]} \
         2>&1 >/dev/tty)
-
+    
     clear
+
+    #If cancel, return to main
+    [ -z "$CHOICE" ] && main
+
     #run Berserker Mystery
-    python3 "$BERSERKER"/Mystery.py --weights "${yamllist[$CHOICE]}" --outputpath "$PORTS/output"
+    python3 "$BERSERKER"/Mystery.py --weights "${yamllist[$CHOICE-1]}" --outputpath "$PORTS/output"
 
     #Move rom to the right dir and rename to Date and Time
     dt=$(date '+%d%m%Y-%H%M%S')
@@ -72,6 +75,42 @@ newgame() {
 
     #Launch Game using default SNES settings
     /opt/retropie/supplementary/runcommand/runcommand.sh 0 _SYS_ snes "$newrom"
+    
+}
+
+# shellcheck disable=SC2068,SC2128
+continuegame() {
+    unset options
+    #Get list of available ROMS's
+    romlist=("$ROMS"/*.sfc)
+    i=0
+    #Convert to list that works with Dialog
+    for rom in "${romlist[@]}"; do
+        ((i = i + 1))
+        options+=("$i ${rom##*/}")
+    done
+
+    #List Roms
+    TITLE="Continue Game"
+    MENU="Select your ROM file:"
+
+    CHOICE=$(dialog --clear \
+        --backtitle "$BACKTITLE" \
+        --title "$TITLE" \
+        --menu "$MENU" \
+        "$HEIGHT" "$WIDTH" "$i" \
+        ${options[@]} \
+        3>&1 1>&2 2>&3 3>&-)
+
+    clear
+    #If cancel, return to main
+    [ -z "$CHOICE" ] && main
+
+    #Set rom path
+    rom="${romlist[$CHOICE-1]}"
+
+    #Launch Game using default SNES settings
+    /opt/retropie/supplementary/runcommand/runcommand.sh 0 _SYS_ snes "$rom"
 }
 
 #Main Menu
@@ -89,6 +128,7 @@ main() {
     CHOICE=$(dialog --clear \
         --backtitle "$BACKTITLE" \
         --title "$TITLE" \
+        --no-cancel \
         --menu "$MENU" \
         $HEIGHT $WIDTH 4 \
         "${OPTIONS[@]}" \
@@ -117,3 +157,4 @@ romcheck
 
 #Stop joy2key
 joy2keyStop
+
