@@ -86,7 +86,7 @@ continuegame() {
     i=0
     #Convert to list that works with Dialog
     for rom in "${romlist[@]}"; do
-        [ $rom = "$ROMS/*.sfc" ] && main
+        [ "$rom" = "$ROMS/*.sfc" ] && main
         ((i = i + 1))
         options+=("$i ${rom##*/}")
     done
@@ -121,7 +121,7 @@ deletegame() {
     i=0
     #Convert to list that works with Dialog
     for rom in "${romlist[@]}"; do
-        [ $rom = "$ROMS/*.sfc" ] && main
+        [ "$rom" = "$ROMS/*.sfc" ] && main
         ((i = i + 1))
         options+=("$i ${rom##*/}")
     done
@@ -174,10 +174,18 @@ main() {
     TITLE="Main Menu"
     MENU="Choose one of the following options:"
 
-    OPTIONS=(1 "New Game"
-        2 "Continue Game"
-        3 "Delete Game"
-        4 "Exit")
+    OPTIONS=(1 "New Game")
+
+    count=$(find "$ROMS"/*.sfc | wc -l)
+    if [ "$count" != 0 ]
+    then 
+    read -p "Thingy exists"
+    OPTIONS+=(2 "Continue Game"
+              3 "Delete Game")
+    fi 
+
+    OPTIONS+=(4 "Exit")
+
 
     CHOICE=$(dialog --clear \
         --backtitle "$BACKTITLE" \
