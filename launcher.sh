@@ -86,6 +86,7 @@ continuegame() {
     i=0
     #Convert to list that works with Dialog
     for rom in "${romlist[@]}"; do
+        [ $rom = "$ROMS/*.sfc" ] && main
         ((i = i + 1))
         options+=("$i ${rom##*/}")
     done
@@ -120,6 +121,7 @@ deletegame() {
     i=0
     #Convert to list that works with Dialog
     for rom in "${romlist[@]}"; do
+        [ $rom = "$ROMS/*.sfc" ] && main
         ((i = i + 1))
         options+=("$i ${rom##*/}")
     done
