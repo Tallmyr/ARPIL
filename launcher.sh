@@ -179,7 +179,6 @@ main() {
     count=$(find "$ROMS"/*.sfc | wc -l)
     if [ "$count" != 0 ]
     then 
-    read -p "Thingy exists"
     OPTIONS+=(2 "Continue Game"
               3 "Delete Game")
     fi 
