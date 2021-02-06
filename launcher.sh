@@ -43,7 +43,7 @@ newgame() {
     #Convert to list that works with Dialog
     for yaml in "${yamllist[@]}"; do
         ((i = i + 1))
-        options+=("$i ${yaml##*/}")  
+        options+=("$i ${yaml##*/}")
     done
 
     #New Game Dialog
@@ -57,14 +57,14 @@ newgame() {
         "$HEIGHT" "$WIDTH" "$i" \
         ${options[@]} \
         2>&1 >/dev/tty)
-    
+
     clear
 
     #If cancel, return to main
     [ -z "$CHOICE" ] && main
 
     #run Berserker Mystery
-    python3 "$BERSERKER"/Mystery.py --weights "${yamllist[$CHOICE-1]}" --outputpath "$PORTS/output"
+    python3 "$BERSERKER"/Mystery.py --weights "${yamllist[$CHOICE - 1]}" --outputpath "$PORTS/output"
 
     #Move rom to the right dir and rename to Date and Time
     dt=$(date '+%d%m%Y-%H%M%S')
@@ -75,7 +75,7 @@ newgame() {
 
     #Launch Game using default SNES settings
     /opt/retropie/supplementary/runcommand/runcommand.sh 0 _SYS_ snes "$newrom"
-    
+
 }
 
 # shellcheck disable=SC2068,SC2128
@@ -86,6 +86,7 @@ continuegame() {
     i=0
     #Convert to list that works with Dialog
     for rom in "${romlist[@]}"; do
+        [ "$rom" = "$ROMS/*.sfc" ] && main
         ((i = i + 1))
         options+=("$i ${rom##*/}")
     done
@@ -107,23 +108,84 @@ continuegame() {
     [ -z "$CHOICE" ] && main
 
     #Set rom path
-    rom="${romlist[$CHOICE-1]}"
+    rom="${romlist[$CHOICE - 1]}"
 
     #Launch Game using default SNES settings
     /opt/retropie/supplementary/runcommand/runcommand.sh 0 _SYS_ snes "$rom"
 }
+# shellcheck disable=SC2068,SC2128
+deletegame() {
+    unset options
+    #Get list of available ROMS's
+    romlist=("$ROMS"/*.sfc)
+    i=0
+    #Convert to list that works with Dialog
+    for rom in "${romlist[@]}"; do
+        [ "$rom" = "$ROMS/*.sfc" ] && main
+        ((i = i + 1))
+        options+=("$i ${rom##*/}")
+    done
+
+    #List Roms
+    TITLE="Delete Game"
+    MENU="What Rom do you wish to delete?:"
+
+    CHOICE=$(dialog --clear \
+        --backtitle "$BACKTITLE" \
+        --title "$TITLE" \
+        --menu "$MENU" \
+        "$HEIGHT" "$WIDTH" "$i" \
+        ${options[@]} \
+        2>&1 >/dev/tty)
+
+    clear
+    #If cancel, return to main
+    [ -z "$CHOICE" ] && main
+
+    #Set rom path
+    rom="${romlist[$CHOICE - 1]}"
+
+    #Confirm
+    dialog --title "Delete Rom" \
+        --backtitle "Linux Shell Script Tutorial Example" \
+        --yesno "Are you sure you want to permanently delete ${rom##*/}" 7 60
+    response=$?
+    case $response in
+    0)
+        dialog --title "Rom Deleted" \
+            --backtitle "$BACKTITLE" \
+            --msgbox "Rom has been deleted."
+        rm "$rom"
+        deletegame
+        ;;
+    1)
+        dialog --title "Rom Deleted" \
+            --backtitle "$BACKTITLE" \
+            --msgbox "Rom has been deleted."
+        deletegame
+        ;;
+    esac
+}
 
 #Main Menu
 main() {
-
+    unset options
     #Main Menu Dialog
     TITLE="Main Menu"
     MENU="Choose one of the following options:"
 
-    OPTIONS=(1 "New Game"
-        2 "Continue Game"
-        3 "Delete Game"
-        4 "Exit")
+    OPTIONS=(1 "New Game")
+
+    count=$(find "$ROMS"/*.sfc | wc -l)
+    if [ "$count" != 0 ]
+    then 
+    read -p "Thingy exists"
+    OPTIONS+=(2 "Continue Game"
+              3 "Delete Game")
+    fi 
+
+    OPTIONS+=(4 "Exit")
+
 
     CHOICE=$(dialog --clear \
         --backtitle "$BACKTITLE" \
@@ -157,4 +219,3 @@ romcheck
 
 #Stop joy2key
 joy2keyStop
-
