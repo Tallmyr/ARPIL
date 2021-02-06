@@ -1,6 +1,10 @@
 on:
   push:
-    branch:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches: 
       - main
       - dev
 
