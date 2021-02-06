@@ -29,7 +29,7 @@ romcheck() {
     else
         dialog --clear \
             --title "Error" \
-            --msgbox "Zelda no Densetsu - Kamigami no Triforce (Japan).sfc was not found. Please add this to the Ports/$SCRIPTID rom folder ($PORTS)" $HEIGHT $WIDTH
+            --msgbox "Zelda no Densetsu - Kamigami no Triforce (Japan).sfc was not found. Please add this to the Ports/$SCRIPTID rom folder ($PORTS)" 10 80
     fi
 }
 
