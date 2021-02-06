@@ -22,14 +22,15 @@ BACKTITLE="Archipelago for RetroPie Launcher"
 #Bootup Tests - This makes sure that the Romfile exist, otherwize throws an error with instructions
 romcheck() {
     ZELDA="Zelda no Densetsu - Kamigami no Triforce (Japan).sfc"
-    echo "Check if rom exist"
-    FILE="$ZELDA"
-    if [ -f "$FILE" ]; then
+    if [ -f "$ZELDA" ]; then
         main
     else
-        dialog --clear \
-            --title "Error" \
-            --msgbox "Zelda no Densetsu - Kamigami no Triforce (Japan).sfc was not found. Please add this to the Ports/$SCRIPTID rom folder ($PORTS)" $HEIGHT $WIDTH
+        CHOICE=$(dialog --title "Error" \
+            --backtitle "$BACKTITLE" \
+            --msgbox "Zelda no Densetsu - Kamigami no Triforce (Japan).sfc was not found. Please add this to the Ports/$SCRIPTID rom folder ($PORTS)" 10 80 \
+            2>&1 >/dev/tty)
+        clear
+        exit
     fi
 }
 
@@ -146,9 +147,10 @@ deletegame() {
     rom="${romlist[$CHOICE - 1]}"
 
     #Confirm
-    dialog --title "Delete Rom" \
+    CHOICE=$(dialog --title "Delete Rom" \
         --backtitle "Linux Shell Script Tutorial Example" \
-        --yesno "Are you sure you want to permanently delete ${rom##*/}" 7 60
+        --yesno "Are you sure you want to permanently delete ${rom##*/}" 7 60 \
+        2>&1 >/dev/tty)
     response=$?
     case $response in
     0)
@@ -179,7 +181,6 @@ main() {
     count=$(find "$ROMS"/*.sfc | wc -l)
     if [ "$count" != 0 ]
     then 
-    read -p "Thingy exists"
     OPTIONS+=(2 "Continue Game"
               3 "Delete Game")
     fi 
