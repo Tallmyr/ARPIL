@@ -100,7 +100,7 @@ continuegame() {
         --menu "$MENU" \
         "$HEIGHT" "$WIDTH" "$i" \
         ${options[@]} \
-        3>&1 1>&2 2>&3 3>&-)
+        2>&1 >/dev/tty-)
 
     clear
     #If cancel, return to main
