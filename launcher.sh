@@ -22,7 +22,6 @@ BACKTITLE="Archipelago for RetroPie Launcher"
 #Bootup Tests - This makes sure that the Romfile exist, otherwize throws an error with instructions
 romcheck() {
     ZELDA="Zelda no Densetsu - Kamigami no Triforce (Japan).sfc"
-    echo "Check if rom exist"
     FILE="$ZELDA"
     if [ -f "$FILE" ]; then
         main
