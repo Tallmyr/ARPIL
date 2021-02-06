@@ -15,7 +15,7 @@ function depends_arpil() {
 
 function sources_arpil() {
     gitPullOrClone "$md_build/arpil" "https://github.com/Tallmyr/ARPIL" "dev"
-    commit=$(curl 'https://api.github.com/repos/Berserker66/MultiWorld-Utilities/tags?per_page=1' | jq -r '.[0].commit[0].sha')
+    commit=$(curl 'https://api.github.com/repos/Berserker66/MultiWorld-Utilities/tags?per_page=1' | jq -r '.[0].commit.sha')
     gitPullOrClone "$md_build/berserker" "https://github.com/Berserker66/MultiWorld-Utilities" "main" "$commit"
 }
 
@@ -29,6 +29,7 @@ function install_arpil() {
 
 function configure_arpil() {
     addPort "$md_id" "arpil" "Arpil" "$md_inst/launcher.sh"
+    rmDirExists "$romdir/ports/$md_id/berserker"
 
     [[ "$md_mode" = "remove" ]] && return
     chown -R "$user":"$user" "$md_inst/launcher.sh"
@@ -41,5 +42,4 @@ function configure_arpil() {
 
     cp "$md_inst/berserker/playerSettings.yaml" "$romdir/ports/$md_id/YAML/playerSettings.yaml" 
     mv "$md_inst/berserker" "$romdir/ports/$md_id"
-    chown -R "$user":"$user" "$romdir/ports/$md_id/berserker"
 }
