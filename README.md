@@ -1,6 +1,6 @@
 # Archipelago for RetroPie Laucher
 
-***This is currently unreleased. This is still under development. Look at Dev branches for progress.***
+***This should be considered BETA. This still need more testing to be considered fully stable.***
 
 ## What is this?
 

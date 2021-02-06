@@ -14,7 +14,7 @@ function depends_arpil() {
 }
 
 function sources_arpil() {
-    gitPullOrClone "$md_build/arpil" "https://github.com/Tallmyr/ARPIL" "dev"
+    gitPullOrClone "$md_build/arpil" "https://github.com/Tallmyr/ARPIL" "main"
     commit=$(curl 'https://api.github.com/repos/Berserker66/MultiWorld-Utilities/tags?per_page=1' | jq -r '.[0].commit.sha')
     gitPullOrClone "$md_build/berserker" "https://github.com/Berserker66/MultiWorld-Utilities" "main" "$commit"
 }
